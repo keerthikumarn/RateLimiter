@@ -42,3 +42,17 @@ d. Flow control
     b. Execute the Docker file with the command "docker build -t ."
     c. docker ps -a
     d. Get the corresponding image id and execute the command "docker run <image_id>"
+
+This tool can be integrated with the spring boot project (microservices) as a service to manage the API calls easily. Just add the RateLimiter.jar file into the corresponding project and perform the below steps:
+
+    a. For any service instantiate the SlidingWindowRateLimiter as shown below:
+    RateLimiterService rateLimiter = new SlidingWindowRateLimiter();
+    
+    b. Add the user who is requesting for the API access with no. of requests the API can allowed and time for the same in seconds.
+    rateLimiter.addUser("test_user", 10, 15);
+    
+    c. Then invoke the main algo implemention as shown below from the rateLimiter:
+    rateLimiter.isRequestAllowed("test_user")
+    
+As per the algo implementation, if the user is allowed, then the request will be processed, if not then a message will be sent back to the user stating the request cannot be processed at the given point of time.
+
